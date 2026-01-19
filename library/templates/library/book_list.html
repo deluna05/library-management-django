@@ -1,0 +1,29 @@
+{% extends "library/base.html" %}
+{% block title %}Books{% endblock %}
+
+{% block content %}
+<h2>Book Catalog</h2>
+
+<ul class="list">
+  {% for book in books %}
+    <li class="item">
+      <div class="item__title">
+        <a href="{% url 'book_detail' book.id %}">{{ book.title }}</a>
+
+        {% if book.available %}
+          <span class="badge badge--ok">Available</span>
+        {% else %}
+          <span class="badge badge--warn">Borrowed</span>
+        {% endif %}
+      </div>
+
+      <div class="meta">
+        <div><b>Author:</b> {{ book.author }}</div>
+        <div><b>Category:</b> {{ book.category.name|default:"No category" }}</div>
+        <div><b>Year:</b> {{ book.year|default:"—" }}</div>
+      </div>
+    </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

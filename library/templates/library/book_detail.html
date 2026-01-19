@@ -1,0 +1,36 @@
+{% extends "library/base.html" %}
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block content %}
+<h2 class="h2">{{ book.title }}</h2>
+
+<div class="detail">
+  <div class="panel">
+    <div class="kv">
+      <b>Author</b><span>{{ book.author }}</span>
+      <b>Category</b><span>{{ book.category|default:"No category" }}</span>
+      <b>Year</b><span>{{ book.year|default:"—" }}</span>
+      <b>ISBN</b><span>{{ book.isbn|default:"—" }}</span>
+    </div>
+
+    <hr>
+
+    {% if book.available %}
+      <span class="badge ok">Available</span>
+    {% else %}
+      <span class="badge bad">Borrowed</span>
+    {% endif %}
+  </div>
+
+  <div class="panel">
+    <p class="meta">
+      <b>Tip:</b> Add categories in Admin, then assign category to books.
+      <br><br>
+      This page displays dynamic data from database (Django templates).
+    </p>
+  </div>
+</div>
+
+{% endif %}
+
+{% endblock %}

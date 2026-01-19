@@ -1,0 +1,28 @@
+{% extends "library/base.html" %}
+{% block title %}My Borrowing History{% endblock %}
+
+{% block content %}
+<h2>My Borrowing History</h2>
+
+<ul class="list">
+  {% for r in records %}
+    <li class="card">
+      <div><b>Book:</b> {{ r.book.title }}</div>
+      <div><b>Borrowed:</b> {{ r.borrowed_at }}</div>
+      <div><b>Due:</b> {{ r.due_at }}</div>
+
+      {% if r.returned_at %}
+        <div class="badge ok">Returned: {{ r.returned_at }}</div>
+      {% else %}
+        {% if r.is_overdue %}
+          <div class="badge no">Overdue!</div>
+        {% else %}
+          <div class="badge warn">Not returned yet</div>
+        {% endif %}
+      {% endif %}
+    </li>
+  {% empty %}
+    <li>No history yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Library Management System{% endblock %}</title>
+
+  <link rel="stylesheet" href="{% static 'library/styles.css' %}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <div>
+        <h1 class="brand">Library Management System</h1>
+        <p class="subtitle">Catalog • Borrow/Return • Due dates • History</p>
+      </div>
+
+      <nav class="nav">
+        <a class="nav__link" href="{% url 'book_list' %}">Books</a>
+        <a class="nav__link" href="{% url 'borrow_history' %}">My History</a>
+        <a class="nav__link nav__link--ghost" href="/admin/">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      {% block content %}{% endblock %}
+    </div>
+
+    <footer class="footer">
+      Made with Django • Simple UI (brown/white/navy)
+    </footer>
+  </main>
+</body>
+</html>
