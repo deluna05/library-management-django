@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Book, BorrowRecord
+import json
 
 
 def book_list(request):
@@ -80,3 +81,28 @@ def api_borrow(request):
         "borrow_id": record.id,
         "due_at": record.due_at
     }, status=201)
+
+@csrf_exempt
+def api_book_detail(request, book_id):
+
+    try:
+        book = Book.objects.get(id=book_id)
+    except Book.DoesNotExist:
+        return JsonResponse({"error": "Book not found"}, status=404)
+
+    if request.method == "PUT":
+        body = json.loads(request.body.decode("utf-8"))
+
+        book.title = body.get("title", book.title)
+        book.author = body.get("author", book.author)
+        book.year = body.get("year", book.year)
+        book.isbn = body.get("isbn", book.isbn)
+        book.save()
+
+        return JsonResponse({"message": "Book updated"})
+
+    if request.method == "DELETE":
+        book.delete()
+        return JsonResponse({"message": "Book deleted"}, status=204)
+
+    return JsonResponse({"error": "Method not allowed"}, status=405)
